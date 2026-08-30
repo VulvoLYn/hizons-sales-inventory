@@ -1,0 +1,369 @@
+:root {
+    --bg: #FFF8F0;
+    --sidebar: #4A2C2A;
+    --primary: #6B3E32;
+    --secondary: #C98282;
+    --accent: #D4A574;
+
+    --card: #FFFFFF;
+    --text: #2F2422;
+    --muted: #8A7772;
+    --border: #E8D9CE;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.sidebar-container img {
+    display: block;
+    margin: 2rem auto 1rem;
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+}
+
+.sidebar-container h2 {
+    margin: 0 1rem 1.5rem;
+    padding-bottom: 0.75rem;
+    color: var(--card);
+    text-align: center;
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--card);
+}
+
+.sidebar-container {
+    border-right: 1px solid var(--border);
+    width: 10rem;
+    min-height: 0;
+    height: 100vh;
+    background-color: var(--sidebar);
+}
+
+.sidebar-container a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    color: #FFF8F0;
+    cursor: pointer;
+    transition: .2s ease;
+    border-left: 5px solid transparent;
+}
+
+.sidebar-container a:hover {
+    background-color: #6b3e32;
+    border-left-color: #d4a574;
+}
+
+.sidebar-container a.active {
+    background-color: #C98282;
+    color: #FFFFFF;
+}
+
+.main-content-container {
+    flex: 1;
+    min-width: 0;
+}
+
+.main-content-container {
+    padding: 1.5rem;
+}
+
+.main-content {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(74, 44, 42, 0.08);
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead th {
+    background-color: var(--primary);
+    color: #FFF8F0;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+}
+
+thead th:first-child {
+    border-top-left-radius: 8px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 8px;
+}
+
+tbody td {
+    padding: 0.65rem 0.5rem;
+    text-align: center;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background-color .15s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(201, 130, 130, 0.15);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* ============================================================
+   Toolbar (Add Item button) + Delete button + Total row
+   ============================================================ */
+
+/* Ang toolbar na naka-host sa "+ Add Item" button — inilagay
+   natin ito bilang flex na naka-align sa kanan, may konting
+   espasyo sa ibaba bago magsimula ang table mismo. */
+.table-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1rem 0;
+}
+
+.btn-add {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary);
+    color: #FFF8F0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .15s ease;
+    margin-bottom: 1rem;
+}
+
+.btn-add:hover {
+    background-color: #5a332a;
+}
+
+/* Ang column na naglalaman ng delete button ay pinaliit natin
+   at naka-center, para hindi ito kumuha ng sobrang espasyo. */
+.action-cell {
+    text-align: center;
+    padding: 0.4rem !important;
+}
+
+.delete-row-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--muted);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+/* Kapag na-hover, saka lang lalabas ang pulang kulay — bilang
+   maliit na paalala na "delete" ito bago pa ito ma-click. */
+.delete-row-btn:hover {
+    background-color: rgba(201, 82, 82, 0.15);
+    color: #C05252;
+}
+
+/* Ito yung "visually hidden" na trick — para may accessible na
+   label ang huling column (para sa screen readers) kahit
+   walang nakikitang text doon sa header. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* Ang TOTAL row sa tfoot — binigyan natin ng bahagyang ibang
+   kulay ng background para agad itong mapansin bilang "buod,"
+   hindi lang basta isa pang ordinaryong row. */
+.total-row td {
+    padding: 0.85rem 0.5rem;
+    background-color: rgba(212, 165, 116, 0.18);
+    font-weight: 700;
+    color: var(--primary);
+    border-top: 2px solid var(--accent);
+    /* Pinapantay natin dito ang text-align sa parehong ginagamit
+       ng "tbody td" (center) — dahil hindi kasama ang tfoot sa
+       rule na iyon, kaya kung wala tayo nito, "left" ang
+       ginagamit ng browser bilang default, at hindi ito
+       nakakapantay sa mga AMOUNT value sa itaas nito. */
+    text-align: center;
+}
+
+.total-row td.total-label {
+    text-align: right;
+    padding-right: 1rem !important;
+}
+
+/* ============================================================
+   Sidebar toggle button (hamburger)
+   ============================================================
+   Itinatago natin ito palagi sa desktop — "display: none" —
+   dahil doon naman laging nakikita nang normal ang sidebar.
+   Ipapakita lang natin ito sa loob ng mobile media query sa ibaba. */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1100;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary);
+    color: #FFF8F0;
+    font-size: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Ang "dimmed" na overlay sa likod ng sidebar kapag bukas ito.
+   Naka-tago rin ito bilang default (walang laman, hindi
+   nakikita, at hindi nakakaharang sa pag-tap sa likod nito
+   dahil sa pointer-events: none). */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(47, 36, 34, 0.5);
+    z-index: 999;
+}
+
+/* ============================================================
+   Mobile (768px pababa, hal. tablets pababa sa maliliit na phone)
+   ============================================================
+   Sa halip na "top bar" na laging nakikita, itatago natin ngayon
+   ang buong sidebar palabas ng screen gamit ang transform, at
+   "isesenyas" lang ito papasok kapag pinindot ang hamburger
+   button — kaya default na makikita agad ang buong table nang
+   walang kinukuhang espasyo ang navigation.
+*/
+@media (max-width: 768px) {
+
+    /* Ipinapakita na natin ngayon ang hamburger button dito
+       (display: flex, para gumana ang align/justify-content sa
+       itaas na pang-center ng icon sa loob ng button). */
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    /* Ito yung "off-canvas" na trick: ginagawa nating "fixed"
+       ang position ng sidebar (lumulutang ito sa ibabaw ng
+       page, hindi na bahagi ng normal na flex layout), tapos
+       inilalagay natin ito palabas ng screen gamit ang
+       translateX(-100%) — ibig sabihin, "ilipat ito pakaliwa
+       nang eksaktong kasing-lapad ng sarili nito," kaya
+       kumpletong nawawala ito sa paningin.
+       Ang transition ay siyang gumagawa ng "slide" na
+       animation kapag binago natin ang transform sa JS. */
+    .sidebar-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 15rem;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    /* Kapag na-add ng JS ang klase na "open" sa sidebar,
+       ibinabalik natin ito sa normal na posisyon (translateX(0))
+       — dito nagmumula ang "pag-slide papasok" ng sidebar. */
+    .sidebar-container.open {
+        transform: translateX(0);
+    }
+
+    /* Kapag naka-open ang sidebar (may klase na "open" din sa
+       overlay, idadagdag natin sa JS), ipinapakita natin ang
+       dimmed background at binubuksan ang pag-tap dito
+       (pointer-events: auto) para isara ang sidebar kapag
+       na-tap ang labas nito. */
+    .sidebar-overlay.open {
+        display: block;
+    }
+
+    /* Dahil "fixed" na ang sidebar (hindi na bahagi ng flex
+       flow), hindi na rin kailangang mag-flex-column pa ang
+       <body> — buong lapad na agad ang makukuha ng main content
+       area, sidebar man ang bukas o nakatago. */
+    .main-content-container {
+        padding: 1rem;
+        padding-top: 4rem;
+    }
+
+    /* Ito yung pinaka-importanteng bahagi para sa table: sa
+       halip na piliting ipasok ang 5 column sa loob ng maliit
+       na screen (na magiging sobrang siksik at mahirap basahin),
+       binibigyan natin ng overflow-x: auto ang wrapper — ibig
+       sabihin, kung mas malapad ang laman kaysa sa screen,
+       lalabas na lang ang horizontal scrollbar sa halip na
+       piga-pigain ang mga column. */
+    .main-content {
+        overflow-x: auto;
+    }
+
+    /* Binibigyan natin ng min-width ang table mismo, para may
+       "sapat na lapad" itong hihingin — dito nagsisimula yung
+       pag-scroll, kaya hindi masyadong nagkakasiksikan ang mga
+       column kahit sa maliit na screen sila tinitingnan. */
+    table {
+        min-width: 700px;
+    }
+
+    /* Pinaliit natin nang bahagya ang font at padding ng mga
+       cell, para mas komportableng tumingin sa mobile nang
+       hindi kailangang mag-zoom out nang husto. */
+    thead th {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    tbody td {
+        padding: 0.5rem 0.4rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ============================================================
+   Extra-small phones (480px pababa)
+   ============================================================
+   Karagdagang pagpapaliit lang para sa pinakamaliliit na
+   screen (hal. mas lumang phone models). */
+@media (max-width: 480px) {
+    .sidebar-container h2 {
+        font-size: 0.85rem;
+    }
+
+    table {
+        min-width: 620px;
+    }
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="hizons-inventory-dashboard.css">
+    <link rel="icon" type="image/png" href="hizons-logo.jpg">
+    <title>Hizon's Inventory</title>
+</head>
+
+<body>
+
+    <!-- Button na lalabas lang sa mobile (itinatago natin ito sa desktop
+         gamit ang CSS). Ito ang magbubukas/magsasara ng sidebar. -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+        <i class="ri-menu-line"></i>
+    </button>
+
+    <!-- Ito yung "dimmed" na background na lalabas sa likod ng sidebar
+         kapag bukas ito sa mobile. Pwede ring i-tap ito para isara
+         ang sidebar sa halip na hanapin pa ang button. -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar-container" id="sidebarContainer">
+
+        <img src="hizons-logo.jpg" alt="">
+        <h2>Hizon's Cakes and Pastries</h2>
+
+        <a class="sidebar-menu active">
+            <i class="ri-home-5-line"></i>
+            Dashboard
+        </a>
+    </aside>
+
+    <main class="main-content-container">
+        <div class="main-content">
+
+            <!-- Maliit na "toolbar" sa itaas ng table, dito natin
+                 ilalagay ang Add Item button. -->
+            <div class="table-toolbar">
+                <button class="btn-add" id="addItemBtn">
+                    <i class="ri-add-line"></i>
+                    Add Item
+                </button>
+            </div>
+
+            <table>
+                <!-- Ang colgroup ay nagbibigay ng malinaw na lapad sa
+                     bawat column, para hindi basta pantay-pantay ang
+                     paghahati (importante ito dahil 7 columns na ngayon,
+                     at hindi lahat kailangan ng parehong lapad). -->
+                <colgroup>
+                    <col style="width: 26%">
+                    <col style="width: 9%">
+                    <col style="width: 12%">
+                    <col style="width: 9%">
+                    <col style="width: 12%">
+                    <col style="width: 18%">
+                    <col style="width: 8%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>ITEMS</th>
+                        <th>QTY</th>
+                        <th>PULLED OUT</th>
+                        <th>SOLD</th>
+                        <th>PRICE</th>
+                        <th>AMOUNT</th>
+                        <th><span class="sr-only">Action</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true" data-field="items">Sample Item 1</td>
+                        <td contenteditable="true" data-field="qty">50</td>
+                        <td contenteditable="true" data-field="pulledOut">5</td>
+                        <td contenteditable="true" data-field="sold">30</td>
+                        <td contenteditable="true" data-field="price">50</td>
+                        <td data-field="amount">₱1,500.00</td>
+                        <td class="action-cell">
+                            <button class="delete-row-btn" aria-label="Delete item">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" data-field="items">Sample Item 2</td>
+                        <td contenteditable="true" data-field="qty">20</td>
+                        <td contenteditable="true" data-field="pulledOut">2</td>
+                        <td contenteditable="true" data-field="sold">10</td>
+                        <td contenteditable="true" data-field="price">80</td>
+                        <td data-field="amount">₱800.00</td>
+                        <td class="action-cell">
+                            <button class="delete-row-btn" aria-label="Delete item">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- Ang tfoot ay laging nasa PINAKADULONG BABA ng table,
+                     kahit gaano pa karami ang idagdag na rows sa tbody sa
+                     itaas — kaya perpekto ito para sa TOTAL row. -->
+                <tfoot>
+                    <tr class="total-row">
+                        <!-- colspan="5" ang gumagawa nito na "sumakop" sa
+                             5 column (ITEMS hanggang PRICE), kaya parang
+                             iisang malaking cell na lang ito, at doon
+                             natin inilagay ang label na "TOTAL" nakatabi
+                             sa kanan. -->
+                        <td colspan="5" class="total-label">TOTAL</td>
+                        <td id="totalAmount" data-field="total">₱0.00</td>
+                        <td class="action-cell"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+
+    <script src="hizon-inventory-dashboard.js"></script>
+</body>
+
+</html>
