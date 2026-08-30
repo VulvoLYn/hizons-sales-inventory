@@ -152,6 +152,7 @@ tbody tr:last-child {
     font-weight: 600;
     cursor: pointer;
     transition: background-color .15s ease;
+    margin-bottom: 1rem;
 }
 
 .btn-add:hover {
