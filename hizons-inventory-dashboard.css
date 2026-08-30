@@ -11,6 +11,28 @@
     --border: #E8D9CE;
 }
 
+/* Ito yung root cause ng "naputol" na card sa mobile: dahil
+   walang border-box, ang padding (hal. sa .main-content-container,
+   .table-toolbar, tbody td) ay DINADAGDAG sa likod ng width na
+   itinakda na natin, kaya lumalampas ito sa 100% ng screen at
+   nagdudulot ng horizontal scroll — doon naputol yung mga value
+   sa right side. Ang border-box ang naglalagay ng padding SA LOOB
+   mismo ng width, hindi na dinadagdag pa sa labas nito. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    /* Karagdagang proteksyon — kahit magkamali pa ng width
+       computation sa ibang elemento, hindi na ito magiging dahilan
+       para lumabas pa ng viewport ang buong page pahalang. */
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     display: flex;
     margin: 0;
@@ -371,6 +393,11 @@ tbody tr:last-child {
         border-bottom: 1px solid var(--border);
         text-align: right;
         font-size: 0.85rem;
+        /* Pinapayagan nito ang value text na mag-shrink/mag-wrap sa
+           loob ng card row sa halip na itulak palabas ng card kapag
+           mahaba ang laman (hal. mahabang item name o malaking price). */
+        min-width: 0;
+        overflow-wrap: break-word;
     }
 
     /* Ang huling cell sa loob ng bawat card ay hindi na
