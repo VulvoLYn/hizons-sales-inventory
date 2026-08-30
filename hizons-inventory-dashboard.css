@@ -380,23 +380,23 @@ tbody tr:last-child {
         background-color: var(--card);
     }
 
-    /* Bawat <td> sa loob ng card ay ginagawa nating "flex row"
-       — kaya magkatabi ang label (kaliwa) at ang aktwal na value
-       (kanan), sa halip na magkapatong sila sa ilalim ng isa't
-       isa. */
+    /* Bawat <td> sa loob ng card ay STACKED na ngayon — yung
+       label sa ITAAS (via ::before) at yung aktwal na value sa
+       IBABA nito, sa halip na pagsabayin sila sa iisang linya
+       gamit ang "space-between". Ito yung dahilan kung bakit
+       naputol dati ang value: kapag magkatabi sila at nauubusan
+       ng espasyo, hindi ito lumilipat pababa — pinipilit lang
+       nitong pagkasyahin sa parehong linya. Sa stacked layout,
+       walang kailangang i-share na espasyo pahalang — kaya kahit
+       gaano pa "kahaba" ang value (malaking presyo, mahabang
+       pangalan), palagi itong bubuo sa sarili niyang linya at
+       100% na makikita. */
     tbody td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.75rem;
+        display: block;
         padding: 0.6rem 0.85rem;
         border-bottom: 1px solid var(--border);
-        text-align: right;
-        font-size: 0.85rem;
-        /* Pinapayagan nito ang value text na mag-shrink/mag-wrap sa
-           loob ng card row sa halip na itulak palabas ng card kapag
-           mahaba ang laman (hal. mahabang item name o malaking price). */
-        min-width: 0;
+        text-align: left;
+        font-size: 0.9rem;
         overflow-wrap: break-word;
     }
 
@@ -411,13 +411,21 @@ tbody tr:last-child {
        value — kinukuha nito ang laman ng data-label attribute
        (na inilagay natin sa HTML/JS) at ipinapakita bilang text
        sa pamamagitan ng CSS, kahit wala talagang text na iyon
-       sa loob ng HTML. */
-    tbody td::before {
+       sa loob ng HTML. Dahil "block" na ito ngayon (hindi na
+       flex), awtomatiko na itong lalabas bilang sariling linya
+       sa itaas ng value. Kasama na rin dito ang "tfoot td" — dati
+       tbody lang ang covered, kaya nawawala yung "TOTAL" label sa
+       mobile dahil hindi na-a-apply ang rule sa TOTAL row. */
+    tbody td::before,
+    tfoot td::before {
         content: attr(data-label);
+        display: block;
         font-weight: 600;
+        font-size: 0.75rem;
         color: var(--muted);
-        text-align: left;
-        flex-shrink: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.2rem;
     }
 
     /* Ang ITEMS field ang gagawin nating parang "pamagat" ng
@@ -440,8 +448,13 @@ tbody tr:last-child {
     }
 
     /* Ang delete button ay inilalagay na lang natin sa kanan,
-       walang label sa tabi nito. */
+       walang label sa tabi nito. Dahil "block" na ngayon ang
+       default ng tbody td, kailangan nating i-declare ulit dito
+       ang display: flex para gumana ang justify-content — pero
+       ligtas lang ito dahil isang maliit na button lang naman
+       ang laman ng cell na ito, hindi tulad ng mahahabang value. */
     tbody td.action-cell {
+        display: flex;
         justify-content: flex-end;
     }
 
@@ -462,9 +475,8 @@ tbody tr:last-child {
     }
 
     .total-row td[data-field="total"] {
-        display: flex;
-        justify-content: space-between;
-        font-size: 1rem;
+        display: block;
+        font-size: 1.1rem;
     }
 
     .total-row td.action-cell {
