@@ -40,23 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildRowElement(rowData) {
         const tr = document.createElement('tr');
 
-        function createCell(field, text, editable) {
+        // Dagdag na "label" parameter — ito yung salitang lalabas
+        // bago ang value kapag naka-card na ang view sa mobile.
+        function createCell(field, text, editable, label) {
             const td = document.createElement('td');
             td.dataset.field = field;
+            td.dataset.label = label;
             td.textContent = text;
             if (editable) td.setAttribute('contenteditable', 'true');
             return td;
         }
 
-        tr.appendChild(createCell('items', rowData.items, true));
-        tr.appendChild(createCell('qty', rowData.qty, true));
-        tr.appendChild(createCell('pulledOut', rowData.pulledOut, true));
-        tr.appendChild(createCell('sold', rowData.sold, true));
-        tr.appendChild(createCell('price', rowData.price, true));
+        tr.appendChild(createCell('items', rowData.items, true, 'Item'));
+        tr.appendChild(createCell('qty', rowData.qty, true, 'Qty'));
+        tr.appendChild(createCell('pulledOut', rowData.pulledOut, true, 'Pulled Out'));
+        tr.appendChild(createCell('sold', rowData.sold, true, 'Sold'));
+        tr.appendChild(createCell('price', rowData.price, true, 'Price'));
 
         // Ang AMOUNT ay hindi editable — kakalkulahin na lang natin
         // ito agad pagkatapos gawin ang row (tingnan sa ibaba).
-        tr.appendChild(createCell('amount', '', false));
+        tr.appendChild(createCell('amount', '', false, 'Amount'));
 
         // Huling column: yung delete button. Hindi ito text field,
         // kaya hiwalay natin itong ginagawa (hindi gamit ang
@@ -286,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Simpleng confirmation dialog bago talaga tanggalin —
         // proteksyon laban sa aksidenteng pag-click.
-        const confirmed = confirm('Are you sure you want to delete "' + itemName + '"?');
+        const confirmed = confirm('Sigurado ka bang gusto mong tanggalin ang "' + itemName + '"?');
         if (!confirmed) return;
 
         row.remove();
